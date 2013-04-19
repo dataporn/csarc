@@ -1,0 +1,155 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Clustered Sankey Arcs
+# GPLv3 2013 by anonymous
+#
+
+from os import path
+from sys import argv, exit
+from jinja2 import Template, Environment, FileSystemLoader
+import igraph
+from collections import defaultdict, Counter
+from itertools import chain
+from math import log10,log,log1p
+
+CURDIR = path.dirname(path.abspath(__file__))
+env = Environment(loader=FileSystemLoader(CURDIR))
+svg_tmpl = env.get_template('csarc.tmpl')
+
+g = igraph.load('from_to.gml')
+
+g2 = g.copy()
+g2.to_undirected(combine_edges='sum')
+g2ml = g2.community_multilevel(weights='weight')
+
+# sort clusters by amount of crossings
+is_x = g2ml.crossing()
+cid = g2ml.membership
+
+xcnt = Counter(
+    [ (cid[e.source], cid[e.target]) for e in g2.es if is_x[e.index] ]
+)
+# filter self 
+xingcnt = [ ((a,b),c) for (a,b),c in xcnt.most_common() if a != b ]
+
+# score each cluster
+clcnt = defaultdict(int)
+for (scl, tcl),c in xingcnt:
+    clcnt[scl] += c
+    clcnt[tcl] += c
+
+# sort by score if the cluster has a crossing
+sortmap = defaultdict(int)
+sortmap.update(zip(
+    sorted(clcnt, key=clcnt.__getitem__, reverse=True), 
+    # no crossing == 0, start sort from 1
+    range(1, len(g2ml)+1)
+))
+
+# apply sort to each node that has a crossing
+g.vs['wsort'] = [ sortmap[m] for m in g2ml.membership ]
+g.vs['wgroup'] = g2ml.membership
+del g2, g2ml
+
+g.vs['pagerank'] = g.pagerank()
+
+nodes = g.vs.select(degree_gt=100)
+edges = g.es.select(_within=nodes.indices, weight_gt=500) 
+
+print len(nodes), len(edges)
+
+edges['offset'] = igraph.utils.rescale(edges['weight'],(0,100),scale=log10)
+edges['v'] = igraph.utils.rescale(edges['weight'],(1,20))
+nodes['offset'] = igraph.utils.rescale(nodes['degree'],(1,50))
+nodes['ulabel'] = [ unicode(n['label'], errors='ignore') for n in nodes ]
+
+#nodes = nodes.select(degree_gt=1)
+#edges = edges.select(weight_gt=150) 
+
+
+sorted_nodes = sorted(
+    nodes, 
+    #key=lambda d: d['wgroup'] + d['diversity'], 
+    #key=lambda d: d['wgroup'] + d['pagerank'], 
+    #key=lambda d: d['wsort'] + d['eigen'], 
+    key=lambda d: d['wsort'] + d['pagerank'], 
+    #key=lambda d: d['wgroup'] + d['degree']*0.1, 
+    #key=lambda d: d['pagerank'], 
+    #key=lambda d: d['degree'], 
+    reverse=True
+)
+
+# calc width for each node
+# == sum of edge weight for all source and target edges
+node_width = defaultdict(int)
+node_position = defaultdict(int)
+for e in edges:
+    for n in e.tuple:
+        node_width[n] += e['v']
+
+# calc node start position on baseline from node width and sort order
+position = 0
+node_positions = []
+for idx, n in enumerate(sorted_nodes):
+    node_position[n.index] = position 
+    node_positions.append((
+        position, 
+        node_width[n.index], 
+        idx
+    ))
+    position = (position + node_width[n.index]) + 2
+
+
+# calc edge position on each node
+
+# offset from node start position for both source and target nodes
+node_offset = defaultdict(int)
+edge_positions = []
+max_height = 0
+for e in edges:
+    source_position = (
+        node_position[e.source] + 
+        node_offset[e.source] + 
+        (e['v']/2) # half the width of the edge weight
+    )
+    # shift offset for the next edge on the same node
+    node_offset[e.source] += e['v']
+
+    target_position = (
+        node_position[e.target] + 
+        node_offset[e.target] +
+        (e['v']/2)
+    )
+    node_offset[e.target] += e['v']
+    
+    height = 0
+    if source_position > target_position:
+        height = (source_position - target_position) / 4
+    else:
+        height = (target_position - source_position) / 4
+    if height > max_height:
+        max_height = height
+
+    edge_positions.append((
+        source_position, 
+        target_position, 
+        height,
+        int(e['v']),
+        # inside or outside communication?
+        (g.vs[e.source]['wsort'] == g.vs[e.target]['wsort']),
+        e.is_mutual()
+    ))
+
+
+with open("csarc.v0.1.20130419.html", mode='w') as dfh:
+    dfh.write(svg_tmpl.render(
+        edges = edges,
+        nodes = sorted_nodes,
+        node_positions = node_positions,
+        edge_positions = edge_positions,
+        height = max_height * 2,
+        width = position
+    ))
+
+

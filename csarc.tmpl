@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <title>Clusterd Sankey Arcs Preview v0.001 alpha 0</title>
+ <link rel="stylesheet" 
+       href="csarc.css" 
+       media="screen, projection"
+       type="text/css" />
+ <link rel="copyright" 
+       href="http://creativecommons.org/licenses/by-nc-sa/3.0/" />
+ <meta name="author" value="anonymous" />
+ <meta name="description" 
+  content="" />
+</head>
+<body>
+{% set baseline = height / 2 %}
+<h1>Clusterd Sankey Arcs (Preview)</h1>
+<h3>Cablegate Sender and Receiver Network</h3>
+<p>Grouped/clustered senders and receivers. Top: Outside communication. Bottom: Inside communication.<p>
+<p>Use recent Firefox / Chrome. Use browser zoom. Zoom out first!</p>
+<p><small><a href="https://github.com/datapornstar/csarcs">Code</a> &copy; 2013 GPLv3 by <a href="https://twitter.com/datapornstar">anonymous</a>. Join the development!.</small></p>
+<svg 
+    id="arc" 
+    height="{{ height }}" 
+    width="{{ 200 + width }}" 
+    version="1.1" 
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+        <marker id="arrow-head" viewBox="0 0 10 10" refX="1" refY="5" 
+                markerUnits="strokeWidth" orient="auto"
+                markerWidth="1" markerHeight="1">
+            <polyline points="0,0 10,5 0,10 1,5" 
+                      fill="rgba(255,255,255,0.5)" />
+        </marker>
+    </defs>
+    <g id="edges">
+    {% for s, t, h, v, has_flag, is_mutual in edge_positions %}
+        <g class="edge">
+        {% if has_flag %}
+        <path d="M{{ s }},{{ baseline }} 
+                 C{{ s }},{{ baseline + h }}
+                  {{ t }},{{ baseline + h }}
+                  {{ t }},{{ baseline }}" 
+              marker-end='url(#arrow-head)'
+              class="fx{{v}}"/>
+        {% else %}
+        <path d="M{{ s }},{{ baseline - 25 }} 
+                 C{{ s }},{{ baseline - 25 - h }}
+                  {{ t }},{{ baseline - 25 - h }}
+                  {{ t }},{{ baseline - 25 }}" 
+              marker-end='url(#arrow-head)'
+              class="fy{{v}}"/>
+        {% endif %}
+        </g>
+    {% endfor %}
+    </g>
+    <g id="nodes">
+    {% for x,o,idx in node_positions %}
+        <g class="node">
+            <rect x="{{x}}" y="{{ baseline - 25 }}" 
+                  width="{{(o)}}px" height="25" />
+            <g class="wndw">
+                <text x="{{ x }}" y="{{ baseline - 25 }}" class="label">
+                    <tspan>{{ nodes[idx]['ulabel' ]}}</tspan>
+                </text>
+            </g>
+        </g>
+    {% endfor %}
+    </g>
+</svg>
+</body>
