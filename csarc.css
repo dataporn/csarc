@@ -1,0 +1,160 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Verdana;
+}
+
+#nodes .node > rect { 
+    -o-transition: fill .4s;
+    -moz-transition: fill .4s;
+    -webkit-transition: fill .4s;
+    transition: fill .4s;
+    stroke: rgba(0,0,255,0.5); 
+    stroke-width: 3; 
+    fill: rgba(0,0,255,0.4);
+}
+
+
+#nodes .node .wndw {
+    visibility: hidden;
+}
+
+#nodes .node:hover .wndw {
+    visibility: visible;
+}
+
+
+#nodes:hover .node > rect {
+    fill: rgba(0,0,255,0.2);
+}
+
+#nodes:hover .node:hover > rect {
+    fill: rgba(0,0,255,1);
+}
+
+#nodes .node .wndw .label {
+    fill: white;
+    stroke: transparent;
+    font-size: 1em;
+    text-anchor: start;
+    text-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+    -webkit-text-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+    -moz-text-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+    -o-text-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+}
+
+#nodes .node .wndw .count {
+    fill: white;
+    stroke: transparent;
+    font-size: .6em;
+}
+
+#nodes .node .wndw .date {
+    fill: white;
+    stroke: transparent;
+    font-size: .5em;
+    text-anchor: start;
+}
+
+#edges .edge path { fill: transparent; stroke-width: 1px; }
+/*
+#edges .edge path.fx0 { stroke: rgba(0,0,255,0.05); }
+#edges .edge path.fx1 { stroke: rgba(0,0,255,0.10); }
+#edges .edge path.fx2 { stroke: rgba(0,0,255,0.15); }
+#edges .edge path.fx3 { stroke: rgba(0,0,255,0.20); }
+#edges .edge path.fx4 { stroke: rgba(0,0,255,0.25); }
+#edges .edge path.fx5 { stroke: rgba(0,0,255,0.30); }
+#edges .edge path.fx6 { stroke: rgba(0,0,255,0.35); }
+#edges .edge path.fx7 { stroke: rgba(0,0,255,0.40); }
+#edges .edge path.fx8 { stroke: rgba(0,0,255,0.45); }
+#edges .edge path.fx9 { stroke: rgba(0,0,255,0.50); }
+*/
+
+#edges .edge path.fx1 { stroke: rgba(255,0,255,0.01); stroke-width: 1px; }
+#edges .edge path.fx2 { stroke: rgba(255,0,255,0.05); stroke-width: 2px; }
+#edges .edge path.fx3 { stroke: rgba(255,0,255,0.10); stroke-width: 3px; }
+#edges .edge path.fx4 { stroke: rgba(255,0,255,0.15); stroke-width: 4px; }
+#edges .edge path.fx5 { stroke: rgba(255,0,255,0.20); stroke-width: 5px; }
+#edges .edge path.fx6 { stroke: rgba(255,0,255,0.25); stroke-width: 6px; }
+#edges .edge path.fx7 { stroke: rgba(255,0,255,0.30); stroke-width: 7px; }
+#edges .edge path.fx8 { stroke: rgba(255,0,255,0.35); stroke-width: 8px; }
+#edges .edge path.fx9 { stroke: rgba(255,0,255,0.40); stroke-width: 9px; }
+#edges .edge path.fx10 { stroke: rgba(255,0,255,0.45); stroke-width: 10px; }
+#edges .edge path.fx11 { stroke: rgba(255,0,255,0.50); stroke-width: 11px; }
+#edges .edge path.fx12 { stroke: rgba(255,0,255,0.55); stroke-width: 12px; }
+#edges .edge path.fx13 { stroke: rgba(255,0,255,0.60); stroke-width: 13px; }
+#edges .edge path.fx14 { stroke: rgba(255,0,255,0.65); stroke-width: 14px; }
+#edges .edge path.fx15 { stroke: rgba(255,0,255,0.70); stroke-width: 15px; }
+#edges .edge path.fx16 { stroke: rgba(255,0,255,0.75); stroke-width: 16px; }
+#edges .edge path.fx17 { stroke: rgba(255,0,255,0.80); stroke-width: 17px; }
+#edges .edge path.fx18 { stroke: rgba(255,0,255,0.85); stroke-width: 18px; }
+#edges .edge path.fx19 { stroke: rgba(255,0,255,0.90); stroke-width: 19px; }
+#edges .edge path.fx20 { stroke: rgba(255,0,255,0.95); stroke-width: 20px; }
+
+#edges .edge path.fy1 { stroke: rgba(0,255,0,0.01); stroke-width: 1px; }
+#edges .edge path.fy2 { stroke: rgba(0,255,0,0.05); stroke-width: 2px; }
+#edges .edge path.fy3 { stroke: rgba(0,255,0,0.10); stroke-width: 3px; }
+#edges .edge path.fy4 { stroke: rgba(0,255,0,0.15); stroke-width: 4px; }
+#edges .edge path.fy5 { stroke: rgba(0,255,0,0.20); stroke-width: 5px; }
+#edges .edge path.fy6 { stroke: rgba(0,255,0,0.25); stroke-width: 6px; }
+#edges .edge path.fy7 { stroke: rgba(0,255,0,0.30); stroke-width: 7px; }
+#edges .edge path.fy8 { stroke: rgba(0,255,0,0.35); stroke-width: 8px; }
+#edges .edge path.fy9 { stroke: rgba(0,255,0,0.40); stroke-width: 9px; }
+#edges .edge path.fy10 { stroke: rgba(0,255,0,0.45); stroke-width: 10px; }
+#edges .edge path.fy11 { stroke: rgba(0,255,0,0.50); stroke-width: 11px; }
+#edges .edge path.fy12 { stroke: rgba(0,255,0,0.55); stroke-width: 12px; }
+#edges .edge path.fy13 { stroke: rgba(0,255,0,0.60); stroke-width: 13px; }
+#edges .edge path.fy14 { stroke: rgba(0,255,0,0.65); stroke-width: 14px; }
+#edges .edge path.fy15 { stroke: rgba(0,255,0,0.70); stroke-width: 15px; }
+#edges .edge path.fy16 { stroke: rgba(0,255,0,0.75); stroke-width: 16px; }
+#edges .edge path.fy17 { stroke: rgba(0,255,0,0.80); stroke-width: 17px; }
+#edges .edge path.fy18 { stroke: rgba(0,255,0,0.85); stroke-width: 18px; }
+#edges .edge path.fy19 { stroke: rgba(0,255,0,0.90); stroke-width: 19px; }
+#edges .edge path.fy20 { stroke: rgba(0,255,0,0.95); stroke-width: 20px; }
+
+
+#nodes .node rect { stroke: transparent; stroke-width: 0; }
+#nodes .node .sndr .vc0 { fill: rgba(255,0,255,0); } 
+#nodes .node .sndr .vc1 { fill: rgba(255,0,255,.05); } 
+#nodes .node .sndr .vc2 { fill: rgba(255,0,255,.10); } 
+#nodes .node .sndr .vc3 { fill: rgba(255,0,255,.15); } 
+#nodes .node .sndr .vc4 { fill: rgba(255,0,255,.20); } 
+#nodes .node .sndr .vc5 { fill: rgba(255,0,255,.25); } 
+#nodes .node .sndr .vc6 { fill: rgba(255,0,255,.30); } 
+#nodes .node .sndr .vc7 { fill: rgba(255,0,255,.35); } 
+#nodes .node .sndr .vc8 { fill: rgba(255,0,255,.40); } 
+#nodes .node .sndr .vc9 { fill: rgba(255,0,255,.45); } 
+#nodes .node .sndr .vc10 { fill: rgba(255,0,255,.50); } 
+#nodes .node .sndr .vc11 { fill: rgba(255,0,255,.55); } 
+#nodes .node .sndr .vc12 { fill: rgba(255,0,255,.60); } 
+#nodes .node .sndr .vc13 { fill: rgba(255,0,255,.65); } 
+#nodes .node .sndr .vc14 { fill: rgba(255,0,255,.70); } 
+#nodes .node .sndr .vc15 { fill: rgba(255,0,255,.75); } 
+#nodes .node .sndr .vc16 { fill: rgba(255,0,255,.80); } 
+#nodes .node .sndr .vc17 { fill: rgba(255,0,255,.85); } 
+#nodes .node .sndr .vc18 { fill: rgba(255,0,255,.90); } 
+#nodes .node .sndr .vc19 { fill: rgba(255,0,255,.95); } 
+#nodes .node .sndr .vc20 { fill: rgba(255,0,255,1); } 
+
+#nodes .node .rcvr .vc0 { fill: rgba(0,255,0,0); } 
+#nodes .node .rcvr .vc1 { fill: rgba(0,255,0,.05); } 
+#nodes .node .rcvr .vc2 { fill: rgba(0,255,0,.10); } 
+#nodes .node .rcvr .vc3 { fill: rgba(0,255,0,.15); } 
+#nodes .node .rcvr .vc4 { fill: rgba(0,255,0,.20); } 
+#nodes .node .rcvr .vc5 { fill: rgba(0,255,0,.25); } 
+#nodes .node .rcvr .vc6 { fill: rgba(0,255,0,.30); } 
+#nodes .node .rcvr .vc7 { fill: rgba(0,255,0,.35); } 
+#nodes .node .rcvr .vc8 { fill: rgba(0,255,0,.40); } 
+#nodes .node .rcvr .vc9 { fill: rgba(0,255,0,.45); } 
+#nodes .node .rcvr .vc10 { fill: rgba(0,255,0,.50); } 
+#nodes .node .rcvr .vc11 { fill: rgba(0,255,0,.55); } 
+#nodes .node .rcvr .vc12 { fill: rgba(0,255,0,.60); } 
+#nodes .node .rcvr .vc13 { fill: rgba(0,255,0,.65); } 
+#nodes .node .rcvr .vc14 { fill: rgba(0,255,0,.70); } 
+#nodes .node .rcvr .vc15 { fill: rgba(0,255,0,.75); } 
+#nodes .node .rcvr .vc16 { fill: rgba(0,255,0,.80); } 
+#nodes .node .rcvr .vc17 { fill: rgba(0,255,0,.85); } 
+#nodes .node .rcvr .vc18 { fill: rgba(0,255,0,.90); } 
+#nodes .node .rcvr .vc19 { fill: rgba(0,255,0,.95); } 
+#nodes .node .rcvr .vc20 { fill: rgba(0,255,0,1); } 
+
