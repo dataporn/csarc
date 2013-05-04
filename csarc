@@ -13,11 +13,15 @@ from collections import defaultdict, Counter
 from itertools import chain
 from math import log10,log,log1p
 
+if len(argv) != 4:
+    print "Usgae: carc graph template out"
+    exit(-1)
+
 CURDIR = path.dirname(path.abspath(__file__))
 env = Environment(loader=FileSystemLoader(CURDIR))
-svg_tmpl = env.get_template('csarc.tmpl')
+svg_tmpl = env.get_template(argv[2])
 
-g = igraph.load('from_to.gml')
+g = igraph.load(argv[1])
 
 g2 = g.copy()
 g2.to_undirected(combine_edges='sum')
@@ -27,10 +31,12 @@ g2ml = g2.community_multilevel(weights='weight')
 is_x = g2ml.crossing()
 cid = g2ml.membership
 
+# count cluster id for each source and target node if edge is a crossing
 xcnt = Counter(
     [ (cid[e.source], cid[e.target]) for e in g2.es if is_x[e.index] ]
 )
-# filter self 
+
+# filter self-loops
 xingcnt = [ ((a,b),c) for (a,b),c in xcnt.most_common() if a != b ]
 
 # score each cluster
@@ -107,7 +113,7 @@ for idx, n in enumerate(sorted_nodes):
 node_offset = defaultdict(int)
 edge_positions = []
 max_height = 0
-for e in edges:
+for e in sorted(edges, key=lambda e: (node_position[e.source], node_position[e.target]), reverse=True):
     source_position = (
         node_position[e.source] + 
         node_offset[e.source] + 
@@ -142,7 +148,7 @@ for e in edges:
     ))
 
 
-with open("csarc.v0.1.20130419.html", mode='w') as dfh:
+with open(argv[3], mode='w') as dfh:
     dfh.write(svg_tmpl.render(
         edges = edges,
         nodes = sorted_nodes,
